@@ -1,6 +1,6 @@
 //
 //  CDZWeakArray.h
-//  HappyKTV
+//  
 //
 //  Created by zhengchen2 on 14-8-19.
 //  Copyright (c) 2014年 Leo Chain. All rights reserved.
