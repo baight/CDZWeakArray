@@ -1,9 +1,9 @@
 //
 //  CDZWeakArray.h
-//  
 //
-//  Created by zhengchen2 on 14-8-19.
-//  Copyright (c) 2014年 Leo Chain. All rights reserved.
+//
+//  Created by baight on 14-8-19.
+//  Copyright (c) 2014年 baight. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -31,6 +31,8 @@
 
 -(void)removeAllObjects;
 -(void)removeLastObject;
+
+-(void)enumerateObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block;
 
 @end
 

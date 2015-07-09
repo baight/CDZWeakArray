@@ -1,9 +1,9 @@
 //
 //  CDZWeakArray.m
-//  
 //
-//  Created by zhengchen2 on 14-8-19.
-//  Copyright (c) 2014年 Leo Chain. All rights reserved.
+//
+//  Created by baight on 14-8-19.
+//  Copyright (c) 2014年 baight. All rights reserved.
 //
 
 #import "CDZWeakArray.h"
@@ -80,6 +80,12 @@
     return [_array count];
 }
 
+-(void)enumerateObjectsUsingBlock:(void (^)(id obj, NSUInteger idx, BOOL *stop))block{
+    [_array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        block([(CDZWeakReferences*)obj object], idx, stop);
+    }];
+}
+
 #pragma mark - NSFastEnumeration
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len{
     
@@ -89,13 +95,25 @@
         free(_itemsPtr);
         _itemsPtr = nil;
     }
-    if(retCount > 0){
+    
+    if(retCount == 0){
+        return 0;
+    }
+    
+    if(retCount > len){
         _itemsPtr = (id __unsafe_unretained *)malloc(sizeof(id __unsafe_unretained*)*retCount);
         for (int i=0; i<retCount; i++) {
             CDZWeakReferences* object = state->itemsPtr[i];
             _itemsPtr[i] = [object object];
         }
         state->itemsPtr = _itemsPtr;
+    }
+    else{
+        for (int i=0; i<retCount; i++) {
+            CDZWeakReferences* object = state->itemsPtr[i];
+            buffer[i] = [object object];
+        }
+        state->itemsPtr = buffer;
     }
     return retCount;
 }
